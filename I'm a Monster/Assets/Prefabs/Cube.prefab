@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 23954894647124662}
   - component: {fileID: 114555266026419378}
   - component: {fileID: 54331987825401744}
+  - component: {fileID: 208297443208804052}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -124,3 +125,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRewinding: 0
+--- !u!208 &208297443208804052
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1213710330133010}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
