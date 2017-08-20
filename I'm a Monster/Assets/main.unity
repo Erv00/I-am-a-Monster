@@ -358,6 +358,7 @@ GameObject:
   - component: {fileID: 1916359506}
   - component: {fileID: 1916359505}
   - component: {fileID: 1916359510}
+  - component: {fileID: 1916359511}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -437,7 +438,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1916359504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0}
+  m_LocalPosition: {x: 0, y: 0.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -464,3 +465,15 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1916359511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1916359504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b280a4517fe4a5fbf665566aa960cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRewinding: 0
