@@ -6,10 +6,12 @@ public class RewindTime : MonoBehaviour {
 
 	LinkedList<TimeFrame> stack;
 	public bool isRewinding = false;
+	Rigidbody rb;
 
 	// Use this for initialization
 	void Start () {
 		stack = new LinkedList<TimeFrame> ();
+		rb = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -22,10 +24,14 @@ public class RewindTime : MonoBehaviour {
 
 	void StartRewind(){
 		isRewinding = true;
+		if (rb != null)
+			rb.isKinematic = true;
 	}
 
 	void StopRewind(){
 		isRewinding = false;
+		if (rb != null)
+			rb.isKinematic = false;
 	}
 
 	void FixedUpdate(){
