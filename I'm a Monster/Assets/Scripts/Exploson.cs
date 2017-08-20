@@ -18,5 +18,15 @@ public class Exploson : MonoBehaviour {
 				}
 			}
 		}
+		if (Input.GetKeyDown (KeyCode.E)) {
+			Collider[] colliders = Physics.OverlapSphere(transform.position+Vector3.down, 5);
+			foreach (Collider hit in colliders)
+			{
+				Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+				if (rb != null && rb != GetComponent<Rigidbody>())
+					rb.AddExplosionForce(500, transform.position+Vector3.down, 5, 3.0F);
+			}	
+		}
 	}
 }
