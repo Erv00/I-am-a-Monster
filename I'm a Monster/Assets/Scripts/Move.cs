@@ -16,7 +16,6 @@ public class Move : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit inf;
 			if (Physics.Raycast(ray,out inf)) {
-				//agent.SetDestination (inf.point);
 				waypoints.AddLast(inf.point);
 			}
 		}
@@ -27,5 +26,15 @@ public class Move : MonoBehaviour {
 				waypoints.RemoveFirst ();
 			}
 		}
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			waypoints.RemoveFirst ();
+			agent.SetDestination (waypoints.First.Value);
+		}
+	}
+
+	void OnDrawGizmos() {
+		Gizmos.color = Color.blue;
+		if(agent != null)
+		Gizmos.DrawCube (agent.destination, new Vector3(1,3,1));
 	}
 }
