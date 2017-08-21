@@ -9,6 +9,8 @@ public class Exploson : MonoBehaviour {
 	public float explosonCooldownS = 2;
 	[SerializeField]
 	private int expCooldown;
+	[SerializeField]
+	GameObject ploson;
 
 	void Start(){
 		expCooldown = Mathf.RoundToInt(explosonCooldownS * 50f);
@@ -19,32 +21,12 @@ public class Exploson : MonoBehaviour {
 			Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit Minf;
 			if (Physics.Raycast(mouse,out Minf)) {
-				Ray pos = new Ray (transform.position, (Minf.point - transform.position));
-				RaycastHit posInf;
-				Physics.Raycast (pos, out posInf);
-				Debug.DrawLine (transform.position, posInf.point, Color.green, 2);
-				if (posInf.point == Minf.point) {
-					expCooldown = Mathf.RoundToInt(explosonCooldownS * 50);
-					Collider[] colliders = Physics.OverlapSphere (Minf.point, 5);
-					foreach (Collider hit in colliders) {
-						Rigidbody rb = hit.GetComponent<Rigidbody> ();
-
-						if (rb != null)
-							rb.AddExplosionForce (500, Minf.point, 5, 3.0F);
-						DoDamage (hit);
-
-						NavMeshAgent ag = hit.GetComponent<NavMeshAgent>();
-						if (ag != null) {
-							ag.enabled = false;
-							StartCoroutine (Concussion (ag));
-						}
-					}
-				}
+				CastIt (Minf);
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.E) && expCooldown <= 0) {
 			GetComponent<Health> ().TakeDamage (2, gameObject, Enums.DamageTypes.EXPLOSION);
-			Collider[] colliders = Physics.OverlapSphere(transform.position, 5);
+			Collider[] colliders = Physics.OverlapSphere(ploson.transform.position, 5);
 			expCooldown = Mathf.RoundToInt(explosonCooldownS * 50);
 			foreach (Collider hit in colliders)
 			{
@@ -59,6 +41,7 @@ public class Exploson : MonoBehaviour {
 					ag.enabled = false;
 					StartCoroutine (Concussion (ag));
 				}
+				Debug.Log ("EXPLOSON");
 			}
 		}
 	}
@@ -80,5 +63,56 @@ public class Exploson : MonoBehaviour {
 	void FixedUpdate(){
 		if(expCooldown > 0)
 			expCooldown--;
+	}
+
+	Ray pos;
+	RaycastHit posInf;
+	void CastIt(RaycastHit Minf){
+		pos = new Ray (ploson.transform.position, (Minf.point - ploson.transform.position));
+		Physics.Raycast (pos, out posInf);
+		Debug.DrawLine (ploson.transform.position, posInf.point, Color.green, 2);
+		if (posInf.point == Minf.point) {
+			expCooldown = Mathf.RoundToInt (explosonCooldownS * 50);
+			Collider[] colliders = Physics.OverlapSphere (Minf.point, 5);
+			foreach (Collider hit in colliders) {
+				Rigidbody rb = hit.GetComponent<Rigidbody> ();
+
+				if (rb != null)
+					rb.AddExplosionForce (500, Minf.point, 5, 3.0F);
+				DoDamage (hit);
+
+				NavMeshAgent ag = hit.GetComponent<NavMeshAgent> ();
+				if (ag != null) {
+					ag.enabled = false;
+					StartCoroutine (Concussion (ag));
+				}
+				Debug.Log ("EXPLOSON");
+			}
+		} else {
+			if (posInf.collider.name == "Player") {
+				transform.LookAt (Minf.point);
+				pos = new Ray (ploson.transform.position, (Minf.point - ploson.transform.position));
+				Physics.Raycast (pos, out posInf);
+				Debug.DrawLine (ploson.transform.position, posInf.point, Color.green, 2);
+				if (posInf.point == Minf.point) {
+					expCooldown = Mathf.RoundToInt (explosonCooldownS * 50);
+					Collider[] colliders = Physics.OverlapSphere (Minf.point, 5);
+					foreach (Collider hit in colliders) {
+						Rigidbody rb = hit.GetComponent<Rigidbody> ();
+
+						if (rb != null)
+							rb.AddExplosionForce (500, Minf.point, 5, 3.0F);
+						DoDamage (hit);
+
+						NavMeshAgent ag = hit.GetComponent<NavMeshAgent> ();
+						if (ag != null) {
+							ag.enabled = false;
+							StartCoroutine (Concussion (ag));
+						}
+						Debug.Log ("EXPLOSON");
+					}
+				}
+			}
+		}
 	}
 }
