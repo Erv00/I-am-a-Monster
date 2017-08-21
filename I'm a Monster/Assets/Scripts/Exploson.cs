@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Health))]
 public class Exploson : MonoBehaviour {
@@ -21,6 +22,13 @@ public class Exploson : MonoBehaviour {
 						if (rb != null && rb != GetComponent<Rigidbody> ())
 							rb.AddExplosionForce (500, Minf.point, 5, 3.0F);
 						DoDamage (hit);
+
+						//NOT SURE
+						NavMeshAgent ag = hit.GetComponent<NavMeshAgent>();
+						if (ag != null) {
+							ag.enabled = false;
+							StartCoroutine (Concussion (ag));
+						}
 					}
 				}
 			}
@@ -44,5 +52,12 @@ public class Exploson : MonoBehaviour {
 		if (h != null) {
 			h.TakeDamage (10, gameObject, Enums.DamageTypes.EXPLOSION);
 		}
+	}
+
+	IEnumerator Concussion(NavMeshAgent a){
+		yield return new WaitForSeconds (3);
+		a.enabled = true;
+		a.gameObject.GetComponent<Rigidbody> ().isKinematic = true;
+		a.gameObject.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 }
