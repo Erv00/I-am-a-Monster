@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Health : MonoBehaviour {
 	[SerializeField]
 	private int maxHealth = 100;
