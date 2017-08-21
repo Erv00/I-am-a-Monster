@@ -6,17 +6,22 @@ using UnityEngine;
 public class Exploson : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit inf;
-			if (Physics.Raycast(ray,out inf)) {
-				Collider[] colliders = Physics.OverlapSphere(inf.point, 5);
-				foreach (Collider hit in colliders)
-				{
-					Rigidbody rb = hit.GetComponent<Rigidbody>();
+			Ray mouse = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit Minf;
+			if (Physics.Raycast(mouse,out Minf)) {
+				Ray pos = new Ray (transform.position, (Minf.point - transform.position));
+				RaycastHit posInf;
+				Physics.Raycast (pos, out posInf);
+				Debug.DrawLine (transform.position, posInf.point, Color.green, 2);
+				if (posInf.point == Minf.point) {
+					Collider[] colliders = Physics.OverlapSphere (Minf.point, 5);
+					foreach (Collider hit in colliders) {
+						Rigidbody rb = hit.GetComponent<Rigidbody> ();
 
-					if (rb != null && rb != GetComponent<Rigidbody>())
-						rb.AddExplosionForce(500, inf.point, 5, 3.0F);
-					DoDamage (hit);
+						if (rb != null && rb != GetComponent<Rigidbody> ())
+							rb.AddExplosionForce (500, Minf.point, 5, 3.0F);
+						DoDamage (hit);
+					}
 				}
 			}
 		}
